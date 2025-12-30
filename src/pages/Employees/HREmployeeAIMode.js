@@ -19,16 +19,6 @@ import {
   mockDocumentUpdate
 } from "./mockAIHREmp";
 
-/**
- * Helper: Extract employee name from natural language
- * Example:
- * "Show profile of Tate" -> "tate"
- */
-const extractEmployeeName = (text) => {
-  const words = text.toLowerCase().split(" ");
-  return words[words.length - 1];
-};
-
 export default function HREmployeesAIMode() {
   const [messages, setMessages] = useState([
     {
@@ -46,8 +36,8 @@ export default function HREmployeesAIMode() {
 
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
 
-    const name = extractEmployeeName(input);
-    const employee = findEmployeeByName(name);
+    // ✅ PASS FULL INPUT (NO EXTRACTION)
+    const employee = findEmployeeByName(input);
 
     // SHOW PROFILE
     if (employee && input.toLowerCase().includes("show")) {
@@ -77,6 +67,17 @@ export default function HREmployeesAIMode() {
       setMessages((prev) => [
         ...prev,
         { sender: "ai", text: "Document update prepared for approval." }
+      ]);
+    }
+
+    // ❗ Optional fallback if employee not found
+    if (!employee) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "I couldn’t find that employee. Please check the name."
+        }
       ]);
     }
 
@@ -113,7 +114,7 @@ export default function HREmployeesAIMode() {
           ))}
         </Stack>
 
-        {/* PREVIEW CARDS */}
+        {/* PREVIEW */}
         {preview && (
           <Card variant="outlined" sx={{ mt: 3 }}>
             <CardContent>
@@ -196,7 +197,7 @@ export default function HREmployeesAIMode() {
         )}
       </Box>
 
-      {/* INPUT (FIXED LIKE CHATGPT) */}
+      {/* INPUT */}
       <Box
         sx={{
           p: 2,
