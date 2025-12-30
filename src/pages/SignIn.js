@@ -33,6 +33,11 @@ const StyledContainer = styled(Box)`
     flex-direction: column;
     height: auto;
   }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 `;
 
 /* ------------------------------------------------
@@ -44,12 +49,19 @@ const LeftSection = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 60px;
-  padding-bottom: 60px; /* Space for footer */
+  padding: 40px 60px 60px 60px;
   position: relative;
 
+  @media (max-width: 1200px) {
+    padding: 32px 32px 40px 32px;
+  }
   @media (max-width: 900px) {
-    padding: 20px 20px 60px 20px;
+    padding: 24px 12px 32px 12px;
+    order: 1;
+  }
+  @media (max-width: 600px) {
+    padding: 18px 10px 24px 10px;
+    order: 1;
   }
 `;
 
@@ -58,9 +70,28 @@ const FormWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 32px 28px 28px 28px;
 
+  @media (max-width: 1200px) {
+    width: 340px;
+    padding: 24px 16px 20px 16px;
+  }
+  @media (max-width: 900px) {
+    width: 100%;
+    max-width: 500px;
+    gap: 16px;
+    padding: 18px 8px 16px 8px;
+  }
   @media (max-width: 600px) {
     width: 100%;
+    max-width: 100vw;
+    gap: 12px;
+    padding: 14px 4vw 14px 4vw;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
   }
 `;
 
@@ -127,9 +158,19 @@ const SocialItem = styled(Box)`
   color: #334155;
   cursor: pointer;
   transition: 0.3s;
+  padding: 0 18px;
 
   &:hover {
     background: #e2e8f0;
+  }
+
+  @media (max-width: 600px) {
+    height: auto;
+    font-size: 13px;
+    padding: 10px 10px;
+    border-radius: 9px;
+    min-height: 44px;
+    align-items: center;
   }
 `;
 
@@ -138,13 +179,17 @@ const SocialItem = styled(Box)`
 ------------------------------------------------ */
 const RightPanel = styled.div`
   flex: 1;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
-  padding: 50px;
+  padding: 70px 24px;
+  min-height: 900px;
   position: relative;
 
   &::before {
@@ -157,15 +202,42 @@ const RightPanel = styled.div`
     border-radius: 50%;
   }
 
+  @media (max-width: 1200px) {
+    width: 100%;
+    padding: 48px 8px;
+    min-height: 700px;
+  }
   @media (max-width: 900px) {
     width: 100%;
-    padding: 30px 20px;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 32px 8px;
+    flex: 1;
+    order: 2;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 320px;
+    padding: 18px 4px;
+    order: 2;
+    border-radius: 0;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
   }
 `;
 
 const RightContent = styled.div`
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 `;
 
@@ -191,7 +263,8 @@ const RightSubtitle = styled.p`
 `;
 
 const PreviewCard = styled.div`
-  width: 520px;
+  width: 100%;
+  max-width: 420px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -208,15 +281,19 @@ const PreviewCard = styled.div`
 
   img {
     width: 100%;
+    max-width: 420px;
+    height: auto;
+    max-height: 320px;
+    object-fit: cover;
     border-radius: 20px;
+    display: block;
   }
-
-  @media (max-width: 900px) {
-    width: 400px;
-  }
-
   @media (max-width: 600px) {
-    width: 100%;
+    max-width: 100%;
+    img {
+      max-width: 100%;
+      max-height: 180px;
+    }
   }
 `;
 
@@ -224,17 +301,12 @@ const PreviewCard = styled.div`
    FOOTER
 ------------------------------------------------ */
 const Footer = styled(Box)`
-  position: absolute;
-  bottom: 20px;
+  position: static;
   width: 100%;
   text-align: center;
   font-size: 14px;
   color: #64748b;
-
-  @media (max-width: 900px) {
-    position: relative;
-    margin-top: 20px;
-  }
+  margin-top: 28px;
 `;
 
 /* ------------------------------------------------
@@ -322,11 +394,11 @@ const SignIn = () => {
             onClick={handleLogin}
             disabled={status === 'loading'}
             sx={{
-              height: "52px",
+              height: { xs: "48px", sm: "52px" },
               background: "linear-gradient(135deg, #6366F1, #8B5CF6)",
-              borderRadius: "10px",
-              fontSize: "15px",
-              fontWeight: "600",
+              borderRadius: { xs: "8px", sm: "10px" },
+              fontSize: { xs: "1.08rem", sm: "1.1rem" },
+              fontWeight: 600,
             }}
           >
             {status === 'loading' ? 'LOGGING IN...' : 'LOG IN'}
@@ -354,6 +426,7 @@ const SignIn = () => {
               Register Now
             </Link>
           </Typography>
+          <div style={{ height: 18 }} />
         </FormWrapper>
         <Footer>Copyright © 2025 HRMS.</Footer>
       </LeftSection>

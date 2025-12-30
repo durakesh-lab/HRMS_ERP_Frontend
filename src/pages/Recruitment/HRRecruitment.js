@@ -10,7 +10,6 @@ import {
     Typography,
     Chip,
     Dialog,
-    DialogTitle,
     DialogContent,
     DialogActions,
     IconButton,
@@ -23,9 +22,11 @@ import {
     Menu,
     Divider,
     Stack,
-    Link
+    Link,
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
-import { Add, MoreVert, Circle, Email, Phone, Description, Work, Event, AccessTime, Videocam } from '@mui/icons-material';
+import { Add, MoreVert, Circle, Email, Phone, Description, Work, Event, Videocam, Close, WorkOutline, People } from '@mui/icons-material';
 
 import FormRender from '../../components/Forms/FormRender';
 
@@ -51,7 +52,8 @@ const jobPostingSchema = {
                                     label: 'Job Title',
                                     placeholder: 'e.g. Senior React Developer',
                                     input: true,
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'textfield',
@@ -59,7 +61,8 @@ const jobPostingSchema = {
                                     label: 'Company Name',
                                     placeholder: 'e.g. Tech Corp',
                                     input: true,
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'textfield',
@@ -67,7 +70,8 @@ const jobPostingSchema = {
                                     label: 'Location',
                                     placeholder: 'e.g. Remote, New York',
                                     input: true,
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'textfield',
@@ -75,7 +79,8 @@ const jobPostingSchema = {
                                     label: 'Salary Range',
                                     placeholder: 'e.g. $80k - $120k',
                                     input: true,
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 }
                             ],
                             width: 6,
@@ -91,7 +96,8 @@ const jobPostingSchema = {
                                     label: 'Department',
                                     placeholder: 'e.g. Engineering',
                                     input: true,
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'select',
@@ -107,14 +113,16 @@ const jobPostingSchema = {
                                             { label: 'Internship', value: 'Internship' }
                                         ]
                                     },
-                                    validate: { required: true }
+                                    validate: { required: true },
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'textfield',
                                     key: 'skills',
                                     label: 'Required Skills',
                                     placeholder: 'e.g. React, Node.js, AWS (Comma separated)',
-                                    input: true
+                                    input: true,
+                                    customClass: 'form-field-modern'
                                 },
                                 {
                                     type: 'select',
@@ -129,7 +137,8 @@ const jobPostingSchema = {
                                             { label: 'Draft (Internal Only)', value: 'Draft' }
                                         ]
                                     },
-                                    defaultValue: 'Active'
+                                    defaultValue: 'Active',
+                                    customClass: 'form-field-modern'
                                 }
                             ],
                             width: 6,
@@ -146,7 +155,8 @@ const jobPostingSchema = {
                     placeholder: 'Enter detailed job description here...',
                     input: true,
                     rows: 4,
-                    validate: { required: true }
+                    validate: { required: true },
+                    customClass: 'form-field-modern'
                 },
                 {
                     type: 'textarea',
@@ -154,7 +164,8 @@ const jobPostingSchema = {
                     label: 'Requirements',
                     placeholder: 'Enter job requirements here...',
                     input: true,
-                    rows: 3
+                    rows: 3,
+                    customClass: 'form-field-modern'
                 },
                 {
                     type: 'button',
@@ -182,7 +193,8 @@ const interviewSchema = {
             label: 'Interview Date & Time',
             input: true,
             enableTime: true,
-            validate: { required: true }
+            validate: { required: true },
+            customClass: 'form-field-modern'
         },
         {
             type: 'select',
@@ -196,14 +208,16 @@ const interviewSchema = {
                 ]
             },
             validate: { required: true },
-            input: true
+            input: true,
+            customClass: 'form-field-modern'
         },
         {
             type: 'textarea',
             key: 'notes',
             label: 'Notes for Candidate',
             placeholder: 'e.g. Please bring your portfolio...',
-            input: true
+            input: true,
+            customClass: 'form-field-modern'
         },
         {
             type: 'button',
@@ -232,6 +246,8 @@ const mockInterviews = [
 
 export default function HRRecruitment() {
     const [jobs, setJobs] = useState([]);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     // Fetch jobs from Backend API
     const fetchJobs = async () => {
@@ -351,26 +367,46 @@ export default function HRRecruitment() {
         handleCloseInterview();
     };
 
+    // eslint-disable-next-line no-unused-vars
     const handlePopulateData = async () => {
         const demoJobs = [
-            { title: 'Senior Frontend Engineer', company: 'Tech Corp', department: 'Engineering', location: 'Remote', type: 'Full Time', salary: '$120k - $150k', description: 'Lead our frontend team building modern React applications.', skills: 'React, Redux, TypeScript', status: 'Active', applicants: 3 },
-            { title: 'Product Manager', company: 'Tech Corp', department: 'Product', location: 'New York, NY', type: 'Full Time', salary: '$110k - $140k', description: 'Drive the product vision and strategy.', skills: 'Agile, Jira, Strategy', status: 'Active', applicants: 4 },
-            { title: 'DevOps Specialist', company: 'Cloud Systems', department: 'Engineering', location: 'London, UK', type: 'Contract', salary: '$90/hr', description: 'Manage our cloud infrastructure on AWS.', skills: 'AWS, Terraform, CI/CD', status: 'Active', applicants: 5 }
+            { title: 'Senior Frontend Engineer', company: 'Tech Corp', department: 'Engineering', location: 'Remote', type: 'Full Time', salary: '$120k - $150k', description: 'Lead our frontend team building modern React applications.', skills: 'React, Redux, TypeScript', requirements: 'Experience with React, Node.js, and cloud deployment', status: 'Active', applicants: 3 },
+            { title: 'Product Manager', company: 'Tech Corp', department: 'Product', location: 'New York, NY', type: 'Full Time', salary: '$110k - $140k', description: 'Drive the product vision and strategy.', skills: 'Agile, Jira, Strategy', requirements: '5+ years of product management experience', status: 'Active', applicants: 4 },
+            { title: 'DevOps Specialist', company: 'Cloud Systems', department: 'Engineering', location: 'London, UK', type: 'Contract', salary: '$90/hr', description: 'Manage our cloud infrastructure on AWS.', skills: 'AWS, Terraform, CI/CD', requirements: 'Strong Kubernetes and Docker knowledge', status: 'Active', applicants: 5 }
         ];
 
         try {
+            let successCount = 0;
             for (const job of demoJobs) {
-                await fetch('http://localhost:3001/jobs', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(job)
-                });
+                try {
+                    const response = await fetch('http://localhost:3001/jobs', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(job)
+                    });
+                    if (response.ok) {
+                        successCount++;
+                    }
+                } catch (err) {
+                    console.error('Error posting individual job:', err);
+                }
             }
-            toast.success('Demo Jobs Populated!');
-            fetchJobs();
+            
+            if (successCount > 0) {
+                toast.success(`${successCount} Demo Jobs Populated!`);
+                await fetchJobs();
+            } else {
+                // Fallback: add to local state if API fails
+                const newJobsWithIds = demoJobs.map((job, idx) => ({
+                    ...job,
+                    id: Date.now() + idx
+                }));
+                setJobs(prev => [...prev, ...newJobsWithIds]);
+                toast.success('Demo jobs added locally (backend not available)');
+            }
         } catch (error) {
             console.error('Error populating data:', error);
-            toast.error('Failed to populate data');
+            toast.error('Failed to populate demo data');
         }
     };
 
@@ -381,31 +417,56 @@ export default function HRRecruitment() {
     const handleSaveJob = async (data) => {
         if (data && data.title && data.department) {
             try {
+                // Ensure all display fields are present
+                const jobData = {
+                    ...data,
+                    applicants: data.applicants || 0,
+                    status: data.status || 'Active'
+                };
+
                 if (isEditing) {
                     const response = await fetch(`http://localhost:3001/jobs/${editingId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(jobData)
                     });
                     if (response.ok) {
                         toast.success('Job updated successfully');
                         fetchJobs(); // Refresh list
+                    } else {
+                        throw new Error('Update failed');
                     }
                 } else {
                     const response = await fetch('http://localhost:3001/jobs', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify(jobData)
                     });
                     if (response.ok) {
                         toast.success('Job created successfully');
                         fetchJobs(); // Refresh list
+                    } else {
+                        throw new Error('Post failed');
                     }
                 }
                 handleCloseDialog();
             } catch (error) {
                 console.error('Error saving job:', error);
-                toast.error('Failed to save job');
+                // Fallback: add to local state if API fails
+                const newJobWithId = {
+                    ...data,
+                    id: Date.now(),
+                    applicants: data.applicants || 0,
+                    status: data.status || 'Active'
+                };
+                if (isEditing) {
+                    setJobs(prev => prev.map(j => j.id === editingId ? newJobWithId : j));
+                    toast.success('Job updated locally (backend not available)');
+                } else {
+                    setJobs(prev => [...prev, newJobWithId]);
+                    toast.success('Job created locally (backend not available)');
+                }
+                handleCloseDialog();
             }
         }
     };
@@ -424,76 +485,174 @@ export default function HRRecruitment() {
     };
 
     return (
-        <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Job Postings</Typography>
+        <Box sx={{ pt: { xs: 2, sm: 0 } }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'stretch', sm: 'center' }, mb: { xs: 2, sm: 3 }, gap: { xs: 2, sm: 0 } }}>
+                <Typography variant="h5" sx={{ fontWeight: 700, fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>Job Postings</Typography>
                 <Box>
-                    <Button variant="outlined" color="secondary" onClick={handlePopulateData} sx={{ mr: 2 }}>
+                    {/* <Button variant="outlined" color="secondary" onClick={handlePopulateData} sx={{ mr: 2 }}>
                         Populate Demo Data
-                    </Button>
-                    <Button variant="contained" startIcon={<Add />} onClick={handleOpenDialog}>
+                    </Button> */}
+                    <Button variant="contained" startIcon={<Add />} onClick={handleOpenDialog} fullWidth sx={{ fontSize: { xs: '0.875rem', sm: '0.9375rem' } }}>
                         Create Job Posting
                     </Button>
                 </Box>
             </Box>
 
-            <Grid container spacing={3}>
+            <Grid container spacing={{ xs: 2, sm: 2, md: 2 }} sx={{ justifyContent: { xs: 'center', sm: 'flex-start' } }}>
                 {jobs.map((job) => (
-                    <Grid item xs={12} md={6} key={job.id}>
-                        <Card sx={{
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            transition: '0.3s',
-                            '&:hover': {
-                                boxShadow: 6,
-                                transform: 'translateY(-4px)'
-                            }
-                        }}>
-                            <CardContent sx={{ flexGrow: 1 }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                    <Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{job.title}</Typography>
-                                        <Typography color="text.secondary" gutterBottom>
+                    <Grid item xs={11} sm={6} md={6} key={job.id}>
+                        <Card 
+                            className="surface-card" 
+                            sx={{ 
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                borderRadius: 3,
+                                border: '1px solid rgba(15, 23, 42, 0.06)',
+                                background: 'linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)',
+                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                overflow: 'hidden',
+                                '&:hover': {
+                                    boxShadow: '0 18px 40px rgba(15, 23, 42, 0.14)',
+                                    transform: 'translateY(-4px)',
+                                    borderColor: 'rgba(31, 122, 236, 0.18)'
+                                }
+                            }}
+                        >
+                            <Box sx={{ height: 4, background: 'linear-gradient(135deg, #1f7aec 0%, #64b5f6 100%)', opacity: 0.9 }} />
+                            <CardContent sx={{ flexGrow: 1, pt: { xs: 2.5, sm: 2.75 }, px: { xs: 2.5, sm: 3 } }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: 1.5, flexDirection: { xs: 'column', sm: 'row' } }}>
+                                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                                        <Typography 
+                                            variant="h6" 
+                                            sx={{ 
+                                                fontWeight: 700,
+                                                color: '#0f172a',
+                                                mb: 0.5,
+                                                lineHeight: 1.3,
+                                                fontSize: { xs: '1rem', sm: '1.25rem' }
+                                            }}
+                                        >
+                                            {job.title}
+                                        </Typography>
+                                        <Typography 
+                                            color="text.secondary" 
+                                            gutterBottom
+                                            sx={{ fontSize: { xs: '0.8rem', sm: '0.9rem' }, display: 'flex', alignItems: 'center', gap: 0.75 }}
+                                        >
+                                            <Circle sx={{ fontSize: 8 }} />
                                             {job.department} • {job.location}
                                         </Typography>
+                                        {job.company && (
+                                            <Typography 
+                                                variant="caption" 
+                                                className="muted-text"
+                                                sx={{ display: 'block', mt: 0.25 }}
+                                            >
+                                                {job.company}
+                                            </Typography>
+                                        )}
                                     </Box>
-                                    <IconButton size="small" onClick={(e) => handleMenuClick(e, job.id)}>
-                                        <MoreVert />
+                                    <IconButton 
+                                        size="small" 
+                                        onClick={(e) => handleMenuClick(e, job.id)}
+                                        sx={{ ml: { xs: 0, sm: 1 }, bgcolor: 'rgba(15, 23, 42, 0.04)' }}
+                                    >
+                                        <MoreVert fontSize="small" />
                                     </IconButton>
                                 </Box>
-                                <Box sx={{ mt: 2, display: 'flex', gap: 1, alignItems: 'center' }}>
+
+                                <Stack direction="row" spacing={1} flexWrap="wrap" alignItems="center" sx={{ mt: { xs: 1.5, sm: 2 }, gap: 0.75 }}>
                                     <Chip
-                                        // Draft: Use Visual cue for draft status
-                                        icon={job.status === 'Draft' ? <Circle fontSize="small" /> : undefined}
                                         label={job.status}
-                                        color={
-                                            job.status === 'Active' ? 'success' :
-                                                job.status === 'Draft' ? 'default' :
-                                                    'error'
-                                        }
                                         size="small"
-                                        variant={job.status === 'Draft' ? 'outlined' : 'filled'}
+                                        sx={{ 
+                                            fontWeight: 700,
+                                            borderRadius: 10,
+                                            fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                            backgroundColor: job.status === 'Active'
+                                                ? 'rgba(16, 185, 129, 0.16)'
+                                                : job.status === 'Draft'
+                                                    ? 'rgba(107, 114, 128, 0.16)'
+                                                    : 'rgba(239, 68, 68, 0.16)',
+                                            color: job.status === 'Active'
+                                                ? '#0f9d58'
+                                                : job.status === 'Draft'
+                                                    ? '#374151'
+                                                    : '#b91c1c'
+                                        }}
                                     />
                                     <Chip
                                         label={`${job.applicants} Applicants`}
-                                        color="primary"
-                                        variant="outlined"
                                         size="small"
+                                        sx={{ 
+                                            fontWeight: 700,
+                                            borderRadius: 10,
+                                            fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                            backgroundColor: 'rgba(31, 122, 236, 0.12)',
+                                            color: 'var(--primary, #1f7aec)',
+                                            border: '1px solid rgba(31, 122, 236, 0.2)'
+                                        }}
                                     />
+                                    {job.type && (
+                                        <Chip
+                                            label={job.type}
+                                            size="small"
+                                            sx={{ 
+                                                fontWeight: 700,
+                                                borderRadius: 10,
+                                                fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                                backgroundColor: 'rgba(99, 102, 241, 0.12)',
+                                                color: '#4f46e5'
+                                            }}
+                                        />
+                                    )}
+                                </Stack>
+
+                                <Box sx={{ mt: { xs: 2, sm: 2.5 }, display: 'grid', gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', sm: 'repeat(3, minmax(0, 1fr))' }, gap: { xs: 1, sm: 1.25 } }}>
+                                    <Box sx={{ p: { xs: 1.1, sm: 1.25 }, borderRadius: 2, border: '1px solid rgba(15, 23, 42, 0.06)', bgcolor: 'rgba(15, 23, 42, 0.02)' }}>
+                                        <Typography variant="caption" className="muted-text" sx={{ fontWeight: 600, fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Salary</Typography>
+                                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0f172a', mt: 0.5, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                                            {job.salary || 'Not specified'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ p: { xs: 1.1, sm: 1.25 }, borderRadius: 2, border: '1px solid rgba(15, 23, 42, 0.06)', bgcolor: 'rgba(15, 23, 42, 0.02)' }}>
+                                        <Typography variant="caption" className="muted-text" sx={{ fontWeight: 600, fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Job Type</Typography>
+                                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#0f172a', mt: 0.5, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                                            {job.type || '—'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ p: { xs: 1.1, sm: 1.25 }, borderRadius: 2, border: '1px solid rgba(15, 23, 42, 0.06)', bgcolor: 'rgba(15, 23, 42, 0.02)' }}>
+                                        <Typography variant="caption" className="muted-text" sx={{ fontWeight: 600, fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>Applicants</Typography>
+                                        <Typography variant="body2" sx={{ fontWeight: 700, color: 'var(--primary, #1f7aec)', mt: 0.5, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                                            {job.applicants || 0}
+                                        </Typography>
+                                    </Box>
                                 </Box>
+
                                 {job.status === 'Draft' && (
-                                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5, fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
                                         *Visible only to HR team
                                     </Typography>
                                 )}
                             </CardContent>
-                            <Box sx={{ p: 2, pt: 0 }}>
+                            <Box sx={{ px: { xs: 2, sm: 2 }, pb: { xs: 2, sm: 2 }, pt: 0 }}>
                                 <Button
                                     size="small"
-                                    variant="outlined"
+                                    variant="contained"
                                     fullWidth
                                     onClick={() => handleOpenCandidates(job)}
+                                    sx={{ 
+                                        fontWeight: 700,
+                                        borderRadius: 2,
+                                        textTransform: 'none',
+                                        boxShadow: 'none',
+                                        fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                                        '&:hover': {
+                                            boxShadow: 'none',
+                                            transform: 'translateY(-1px)'
+                                        }
+                                    }}
                                 >
                                     Manage Candidates
                                 </Button>
@@ -503,26 +662,59 @@ export default function HRRecruitment() {
                 ))}
             </Grid>
 
-            <Box sx={{ mt: 6 }}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>Upcoming Interviews</Typography>
-                <Grid container spacing={3}>
+            <Box sx={{ mt: { xs: 4, sm: 5, md: 6 } }}>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: { xs: 2, sm: 3 }, fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>Upcoming Interviews</Typography>
+                <Grid container spacing={{ xs: 2, sm: 2, md: 2 }} sx={{ justifyContent: { xs: 'center', sm: 'flex-start' } }}>
                     {mockInterviews.map((interview) => (
-                        <Grid item xs={12} md={4} key={interview.id}>
-                            <Card sx={{ borderLeft: '4px solid #1976d2' }}>
-                                <CardContent>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
-                                        <Typography variant="h6">{interview.candidate}</Typography>
-                                        <Chip label={interview.status} color="primary" size="small" variant={interview.status === 'Completed' ? 'outlined' : 'filled'} />
+                        <Grid item xs={11} sm={6} md={4} key={interview.id}>
+                            <Card 
+                                className="surface-card" 
+                                sx={{ 
+                                    borderRadius: 3,
+                                    borderLeft: `4px solid var(--primary, #1f7aec)`,
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    '&:hover': {
+                                        boxShadow: '0 16px 36px rgba(15, 23, 42, 0.14)',
+                                        transform: 'translateY(-4px)'
+                                    }
+                                }}
+                            >
+                                <CardContent sx={{ p: { xs: 2, sm: 2 } }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1, gap: 1 }}>
+                                        <Typography 
+                                            variant="h6"
+                                            sx={{ 
+                                                fontWeight: 700,
+                                                color: '#0f172a',
+                                                fontSize: { xs: '1rem', sm: '1.25rem' }
+                                            }}
+                                        >
+                                            {interview.candidate}
+                                        </Typography>
+                                        <Chip 
+                                            label={interview.status} 
+                                            color="primary" 
+                                            size="small" 
+                                            variant={interview.status === 'Completed' ? 'outlined' : 'filled'}
+                                            sx={{ fontWeight: 600, fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                                        />
                                     </Box>
-                                    <Typography color="text.secondary" variant="body2" gutterBottom>{interview.role}</Typography>
+                                    <Typography 
+                                        color="text.secondary" 
+                                        variant="body2" 
+                                        gutterBottom
+                                        sx={{ fontWeight: 500, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
+                                    >
+                                        {interview.role}
+                                    </Typography>
 
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2, color: 'text.secondary' }}>
-                                        <Videocam fontSize="small" />
-                                        <Typography variant="body2">{interview.type}</Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: { xs: 2, sm: 2.5 }, color: 'var(--primary, #1f7aec)' }}>
+                                        <Videocam fontSize="small" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />
+                                        <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>{interview.type}</Typography>
                                     </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, color: 'text.secondary' }}>
-                                        <Event fontSize="small" />
-                                        <Typography variant="body2">{interview.time}</Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, color: 'var(--primary, #1f7aec)' }}>
+                                        <Event fontSize="small" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }} />
+                                        <Typography variant="body2" sx={{ fontWeight: 500, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>{interview.time}</Typography>
                                     </Box>
                                 </CardContent>
                             </Card>
@@ -542,29 +734,161 @@ export default function HRRecruitment() {
             </Menu>
 
             {/* Create/Edit Job Dialog */}
-            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle>{isEditing ? 'Edit Job Posting' : 'Create New Job Posting'}</DialogTitle>
-                <DialogContent>
-                    <Box sx={{ pt: 1 }}>
-                        <FormRender
-                            schema={jobPostingSchema}
-                            onSubmit={handleSaveJob}
-                            initialData={isEditing ? newJob : {}}
-                        />
+            <Dialog 
+                open={openDialog} 
+                onClose={handleCloseDialog} 
+                maxWidth="sm" 
+                fullWidth
+                fullScreen={isMobile}
+                PaperProps={{
+                    sx: {
+                        borderRadius: { xs: 0, sm: 3 },
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)'
+                    }
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: { xs: 2, sm: 3 }, pb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: { xs: 36, sm: 40 },
+                                height: { xs: 36, sm: 40 },
+                                borderRadius: 2,
+                                background: 'rgba(31, 122, 236, 0.12)'
+                            }}
+                        >
+                            <WorkOutline sx={{ color: 'var(--primary, #1f7aec)', fontSize: { xs: '1.1rem', sm: '1.25rem' } }} />
+                        </Box>
+                        <Box>
+                            <Typography 
+                                variant="h6" 
+                                sx={{ 
+                                    fontWeight: 700,
+                                    color: '#0f172a',
+                                    lineHeight: 1.2,
+                                    fontSize: { xs: '1rem', sm: '1.25rem' }
+                                }}
+                            >
+                                {isEditing ? 'Edit Job Posting' : 'Create New Job'}
+                            </Typography>
+                            <Typography 
+                                variant="caption" 
+                                className="muted-text"
+                                sx={{ display: 'block', mt: 0.25, fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                            >
+                                {isEditing ? 'Update job details' : 'Post a new opportunity'}
+                            </Typography>
+                        </Box>
                     </Box>
+                    <IconButton 
+                        onClick={handleCloseDialog}
+                        size="small"
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        <Close fontSize="small" />
+                    </IconButton>
+                </Box>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogContent sx={{ pt: { xs: 2, sm: 3 }, px: { xs: 2, sm: 3 } }}>
+                    <FormRender
+                        schema={jobPostingSchema}
+                        onSubmit={handleSaveJob}
+                        initialData={isEditing ? newJob : {}}
+                    />
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog}>Cancel</Button>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogActions sx={{ p: { xs: 2, sm: 2.5 }, gap: 1 }}>
+                    <Button 
+                        onClick={handleCloseDialog}
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                    <Box sx={{ flex: 1 }} />
                 </DialogActions>
             </Dialog>
 
             {/* Manage Candidates Dialog */}
-            <Dialog open={openCandidatesDialog} onClose={handleCloseCandidates} maxWidth="sm" fullWidth>
-                <DialogTitle>
-                    Candidates for {selectedJobForCandidates?.title}
-                </DialogTitle>
-                <Divider />
-                <DialogContent>
+            <Dialog 
+                open={openCandidatesDialog} 
+                onClose={handleCloseCandidates} 
+                maxWidth="sm" 
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                        border: '1px solid rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)'
+                    }
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 3, pb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 40,
+                                height: 40,
+                                borderRadius: 2,
+                                background: 'rgba(31, 122, 236, 0.12)'
+                            }}
+                        >
+                            <People sx={{ color: 'var(--primary, #1f7aec)', fontSize: '1.25rem' }} />
+                        </Box>
+                        <Box>
+                            <Typography 
+                                variant="h6" 
+                                sx={{ 
+                                    fontWeight: 700,
+                                    color: '#0f172a',
+                                    lineHeight: 1.2
+                                }}
+                            >
+                                Candidates
+                            </Typography>
+                            <Typography 
+                                variant="caption" 
+                                className="muted-text"
+                                sx={{ display: 'block', mt: 0.25, maxWidth: 250 }}
+                            >
+                                {selectedJobForCandidates?.title}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <IconButton 
+                        onClick={handleCloseCandidates}
+                        size="small"
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        <Close fontSize="small" />
+                    </IconButton>
+                </Box>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogContent sx={{ pt: 2 }}>
                     {selectedJobForCandidates?.applicants > 0 || selectedJobForCandidates?.id <= 3 ? (
                         <List>
                             {mockCandidates.slice(0, selectedJobForCandidates?.applicants || 5).map((candidate) => (
@@ -587,15 +911,77 @@ export default function HRRecruitment() {
                         </Typography>
                     )}
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseCandidates}>Close</Button>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogActions sx={{ p: 2.5, gap: 1 }}>
+                    <Button 
+                        onClick={handleCloseCandidates}
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        Close
+                    </Button>
                 </DialogActions>
             </Dialog>
 
             {/* Candidate Profile Dialog */}
-            <Dialog open={openProfileDialog} onClose={handleCloseProfile} maxWidth="xs" fullWidth>
-                <DialogTitle>Candidate Profile</DialogTitle>
-                <DialogContent>
+            <Dialog 
+                open={openProfileDialog} 
+                onClose={handleCloseProfile} 
+                maxWidth="xs" 
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                        border: '1px solid rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)'
+                    }
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 3, pb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 40,
+                                height: 40,
+                                borderRadius: 2,
+                                background: 'rgba(31, 122, 236, 0.12)'
+                            }}
+                        >
+                            <Description sx={{ color: 'var(--primary, #1f7aec)', fontSize: '1.25rem' }} />
+                        </Box>
+                        <Typography 
+                            variant="h6" 
+                            sx={{ 
+                                fontWeight: 700,
+                                color: '#0f172a'
+                            }}
+                        >
+                            Profile
+                        </Typography>
+                    </Box>
+                    <IconButton 
+                        onClick={handleCloseProfile}
+                        size="small"
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        <Close fontSize="small" />
+                    </IconButton>
+                </Box>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogContent sx={{ pt: 3 }}>
                     {selectedCandidate && (
                         <Box sx={{ textAlign: 'center', py: 2 }}>
                             <Avatar sx={{ width: 80, height: 80, mx: 'auto', mb: 2, bgcolor: 'primary.main', fontSize: '2rem' }}>
@@ -634,25 +1020,118 @@ export default function HRRecruitment() {
                         </Box>
                     )}
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseProfile}>Close</Button>
-                    <Button variant="contained" color="primary" onClick={handleOpenInterview}>Schedule Interview</Button>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogActions sx={{ p: 2.5, gap: 1 }}>
+                    <Button 
+                        onClick={handleCloseProfile}
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        Close
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleOpenInterview}
+                        sx={{
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            fontSize: '0.95rem'
+                        }}
+                    >
+                        Schedule Interview
+                    </Button>
                 </DialogActions>
             </Dialog>
 
             {/* Schedule Interview Dialog */}
-            <Dialog open={openInterviewDialog} onClose={handleCloseInterview} maxWidth="sm" fullWidth>
-                <DialogTitle>Schedule Interview</DialogTitle>
-                <DialogContent>
-                    <Box sx={{ pt: 1 }}>
-                        <FormRender
-                            schema={interviewSchema}
-                            onSubmit={handleSaveInterview}
-                        />
+            <Dialog 
+                open={openInterviewDialog} 
+                onClose={handleCloseInterview} 
+                maxWidth="sm" 
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                        border: '1px solid rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)'
+                    }
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 3, pb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Box 
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: 40,
+                                height: 40,
+                                borderRadius: 2,
+                                background: 'rgba(31, 122, 236, 0.12)'
+                            }}
+                        >
+                            <Event sx={{ color: 'var(--primary, #1f7aec)', fontSize: '1.25rem' }} />
+                        </Box>
+                        <Box>
+                            <Typography 
+                                variant="h6" 
+                                sx={{ 
+                                    fontWeight: 700,
+                                    color: '#0f172a',
+                                    lineHeight: 1.2
+                                }}
+                            >
+                                Schedule Interview
+                            </Typography>
+                            <Typography 
+                                variant="caption" 
+                                className="muted-text"
+                                sx={{ display: 'block', mt: 0.25 }}
+                            >
+                                with {selectedCandidate?.name}
+                            </Typography>
+                        </Box>
                     </Box>
+                    <IconButton 
+                        onClick={handleCloseInterview}
+                        size="small"
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        <Close fontSize="small" />
+                    </IconButton>
+                </Box>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogContent sx={{ pt: 3 }}>
+                    <FormRender
+                        schema={interviewSchema}
+                        onSubmit={handleSaveInterview}
+                    />
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseInterview}>Cancel</Button>
+                <Divider sx={{ opacity: 0.3 }} />
+                <DialogActions sx={{ p: 2.5, gap: 1 }}>
+                    <Button 
+                        onClick={handleCloseInterview}
+                        sx={{
+                            color: 'text.secondary',
+                            '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                    <Box sx={{ flex: 1 }} />
                 </DialogActions>
             </Dialog>
         </Box>

@@ -22,18 +22,27 @@ import styled from "styled-components";
 const StyledContainer = styled(Box)`
   display: flex;
   min-height: 100vh;
+  width: 100vw;
   height: auto;
   background: #f8fafc;
   position: relative;
+  z-index: 0;
 
   @media (max-width: 900px) {
     flex-direction: column;
     height: auto;
+    width: 100vw;
+  }
+  @media (max-width: 600px) {
+    min-height: 100vh;
+    height: auto;
+    width: 100vw;
+    padding: 0;
   }
 `;
 
 const LeftSection = styled(Box)`
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,6 +53,7 @@ const LeftSection = styled(Box)`
 
   @media (max-width: 900px) {
     padding: 20px 20px 60px 20px;
+    width: 100vw;
   }
 `;
 
@@ -51,10 +61,29 @@ const FormWrapper = styled(Box)`
   width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 32px 28px 28px 28px;
 
+  @media (max-width: 1200px) {
+    width: 340px;
+    padding: 24px 16px 20px 16px;
+  }
+  @media (max-width: 900px) {
+    width: 100%;
+    max-width: 500px;
+    gap: 16px;
+    padding: 18px 8px 16px 8px;
+  }
   @media (max-width: 600px) {
     width: 100%;
+    max-width: 100vw;
+    gap: 12px;
+    padding: 14px 4vw 14px 4vw;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
   }
 `;
 
@@ -127,14 +156,24 @@ const SocialItem = styled(Box)`
   color: #334155;
   cursor: pointer;
   transition: 0.3s;
+  padding: 0 18px;
 
   &:hover {
     background: #e2e8f0;
   }
+  @media (max-width: 600px) {
+    height: auto;
+    font-size: 13px;
+    padding: 10px 10px;
+    border-radius: 9px;
+    min-height: 44px;
+    align-items: center;
+  }
 `;
 
 const RightPanel = styled.div`
-  flex: 1;
+  flex: 1 1 0;
+  width: 100%;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   display: flex;
   flex-direction: column;
@@ -143,6 +182,7 @@ const RightPanel = styled.div`
   color: white;
   padding: 50px;
   position: relative;
+  overflow: hidden;
 
   &::before {
     content: "";
@@ -155,7 +195,7 @@ const RightPanel = styled.div`
   }
 
   @media (max-width: 900px) {
-    width: 100%;
+    width: 100vw;
     padding: 60px 20px;
     min-height: 400px;
   }
@@ -191,7 +231,7 @@ margin - bottom: 40px;
 
 const PreviewCard = styled.div`
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -208,9 +248,19 @@ const PreviewCard = styled.div`
 
   img {
     width: 100%;
+    max-width: 420px;
     height: auto;
+    max-height: 320px;
+    object-fit: cover;
     border-radius: 20px;
     display: block;
+  }
+  @media (max-width: 600px) {
+    max-width: 100%;
+    img {
+      max-width: 100%;
+      max-height: 180px;
+    }
   }
 `;
 
